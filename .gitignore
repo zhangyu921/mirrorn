@@ -101,3 +101,7 @@ Temporary Items
 *.iml
 out
 gen
+
+
+## Project
+lib/
