@@ -6,6 +6,9 @@
 
 我们热爱 React，Redux 和 React Native。
 
+基于Mirror的优秀代码，我们适配了React Native的同时，集成了 react-navigation 作为路由服务。
+
+
 > 一个典型的 React/Redux 应用看起来像下面这样：
 > * 一个 `actions/` 目录用来手动创建所有的 `action type`（或者 `action creator`）；
 > * 一个 `reducers/` 目录以及无数的 `switch` 来捕获所有的 `action type`；
@@ -20,4 +23,70 @@
 >
 > 这正是 Mirror 的使命，用极少数的 API 封装所有繁琐甚至重复的工作，提供一种简洁高效的更高级抽象，同时保持原有的开发模式。
 
-我们基于Mirror的优秀代码，适配了React Native的同时，集成了 react-navigation 作为路由。
+## 快速开始
+### 初始化项目
+
+使用 react-native 创建一个新的 app：
+```$xslt
+$ npm i -g react-native
+$ react-native init RNApp
+
+```
+创建之后使用npm安装mirrorn
+``` 
+$ npm i --save mirrorn
+$ react-native run-android
+// 或者 react-native run-ios
+```
+
+### `index.ios.js` or `index.android.js`
+
+```
+
+...
+import mirror, { actions, connect, render, TabNavigator, TabBarBottom } from 'mirrorn'
+
+mirror.model({
+  name: 'app',
+  initialState: 0,
+  reducers: {
+    increment (state) {return state + 1},
+    decrement (state) {return state - 1}
+  }
+})
+
+class Count extends React.PureComponent {
+
+  goBack = () => {
+    this.props.navigation.goBack()
+  }
+
+  render () {
+    return (
+      <View style={{flex: 1, marginTop: 20}}>
+        <Text>{`Count: ${this.props.count}`}</Text>
+        <Button title={`-`} onPress={() => actions.app.decrement()}/>
+        <Button title={`+`} onPress={() => actions.app.increment()}/>
+        <Button title="Go back" onPress={this.goBack}/>
+      </View>
+    )
+  }
+}
+
+const CountPage = connect(state => {
+  return {count: state.app}
+})(Count)
+
+const MainScreen = StackNavigator({
+  PageOne:{screen:()=>(<Text>Hello World</Text>)}
+})
+
+const RootNavigator = TabNavigator({
+  Main: {screen: MainScreen},
+  Count: {screen: CountPage}
+})
+
+//与Mirrorx保持一致，使用 render 代替 AppRegistry 
+render('RNStart', RootNavigator) 
+
+```
