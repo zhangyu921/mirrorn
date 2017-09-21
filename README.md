@@ -27,7 +27,7 @@
 ### 初始化项目
 
 使用 react-native 创建一个新的 app：
-```$xslt
+```
 $ npm i -g react-native
 $ react-native init RNApp
 
@@ -90,3 +90,28 @@ const RootNavigator = TabNavigator({
 render('RNStart', RootNavigator) 
 
 ```
+## 指南
+
+与Mirror指南一致。
+
+查看 [指南](https://github.com/mirrorjs/mirror/blob/master/docs/zh/guide.md)。
+
+## API
+
+与Mirror API的几点区别：
+- 移除React Router及接口
+- 添加react-navigation所有接口
+- render第一个参数需要填写项目名称
+
+查看 [Mirror API 文档](https://github.com/mirrorjs/mirror/blob/master/docs/zh/api.md)。
+
+
+## FAQ
+
+#### 是否支持 [Redux DevTools 扩展](https://github.com/zalmoxisus/redux-devtools-extension)？
+
+支持。
+
+#### 是否可以使用额外的 Redux middleware？
+
+可以，在 `mirror.defaults` 接口中指定即可，具体可查看文档。
