@@ -1,20 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { AppRegistry } from 'react-native'
 import { connect, Provider } from 'react-redux'
-import { addNavigationHelpers } from 'react-navigation'
 import { options } from './defaults'
 import { models } from './model'
 import { store, createStore, replaceReducer } from './store'
+import { generatorReduxNavigation } from './router'
 
 let started = false
 let Root
-export let AppNavigator
 
 export default function render (name, component) {
 
-  const { initialState, middlewares } = options
-  let ConnectAppNavigator
+  const {initialState, middlewares} = options
+  let ConnectedNavigator
 
   if (started) {
 
@@ -28,21 +26,10 @@ export default function render (name, component) {
     }
 
   } else {
-    // ------------
-    AppNavigator = component
 
-    const AppWithNavigationState = ({ dispatch, nav }) => (
-      <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })}/>
-    )
-
-    AppWithNavigationState.propTypes = {
-      dispatch: PropTypes.func.isRequired,
-      nav: PropTypes.object.isRequired,
-    }
-
-    ConnectAppNavigator = connect(state => ({
+    ConnectedNavigator = connect(state => ({
       nav: state.nav,
-    }))(AppWithNavigationState)
+    }))(generatorReduxNavigation(component))
     // ------------
     createStore(models, initialState, middlewares)
   }
@@ -51,7 +38,7 @@ export default function render (name, component) {
   Root = function Root () {
     return (
       <Provider store={store}>
-        <ConnectAppNavigator/>
+        <ConnectedNavigator/>
       </Provider>
     )
   }

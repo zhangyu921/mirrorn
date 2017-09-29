@@ -5,7 +5,7 @@ import {
   compose
 } from 'redux'
 import createMiddleware from './middleware'
-import { AppNavigator } from './render'
+import { RootNavigator } from './router'
 
 export let store
 
@@ -51,11 +51,11 @@ function createReducer (models) {
 
   // ------------
 
-  const initialState = AppNavigator.router.getStateForAction({})
+  const initialState = RootNavigator.router.getStateForAction({})
 
   // ReactNavigation Reducer
   const navReducer = (state = initialState, action) => {
-    const nextState = AppNavigator.router.getStateForAction(action, state)
+    const nextState = RootNavigator.router.getStateForAction(action, state)
     // Simply return the original `state` if `nextState` is null or undefined.
     return nextState || state
   }
