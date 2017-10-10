@@ -22,7 +22,7 @@ export function createStore (models, initialState, middlewares = []) {
 
   // Following line to exclude from coverage report:
   /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'production') {
+  if (__DEV__) {
     // Redux devtools extension support.
     if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
